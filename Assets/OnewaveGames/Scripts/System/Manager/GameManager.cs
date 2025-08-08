@@ -15,9 +15,10 @@ namespace OnewaveGames.Scripts.System.Manager
         // EventHub
         [Inject] private ManagerEventHub _eventHub;
 
+        // Manager
         private Dictionary<EManager, MonoBehaviour> _managers = new Dictionary<EManager, MonoBehaviour>();
-
-        private void Construct(SignalBus signalBus)
+        
+        [Inject] private void Construct(SignalBus signalBus)
         {
             if (Instance != null && Instance != this)
             {
@@ -44,9 +45,11 @@ namespace OnewaveGames.Scripts.System.Manager
                 {
                     sceneManager.LoadGameScene();
                 }
+
+                StartCoroutine(sceneManager.LaunchTestScene());
             }
         }
-        
+
         public void RegisterManager(EManager key, MonoBehaviour instance)
         {
             _managers[key] = instance;

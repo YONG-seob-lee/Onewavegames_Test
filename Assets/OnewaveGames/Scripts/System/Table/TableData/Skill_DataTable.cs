@@ -10,7 +10,7 @@ namespace OnewaveGames.Scripts.System.Table.TableData
         public Dictionary<int, Skill_Entry> DataMap = new();
         public void RegisterData()
         {
-            TextAsset textAsset = SystemLibrary.CreateTextAsset("Tables/Mode");
+            TextAsset textAsset = SystemLibrary.CreateTextAsset("Table/Skill");
             if (textAsset != null)
             {
                 SystemLibrary.CreateTableObject(textAsset, DataMap);

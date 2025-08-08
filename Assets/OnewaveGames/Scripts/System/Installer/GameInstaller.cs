@@ -15,17 +15,20 @@ namespace OnewaveGames.Scripts.System.Installer
         
         public override void InstallBindings()
         {
+            SignalBusInstaller.Install(Container);
+            
+            // Manager Event Hub Signal
+            Container.DeclareSignal<Signal_InitializeManagers>();
+            
             // Bind ManagerEventHub
             var managerEventHub = new ManagerEventHub();
             GlobalEventHub.InitializeEventHub(managerEventHub);
             Container.Bind<ManagerEventHub>().FromInstance(managerEventHub).AsSingle();
+            
             // Bind SkillEventHub
             var skillEventHub = new Skill_EventHub();
             GlobalEventHub.InitializeSkillHub(skillEventHub);
             Container.Bind<Skill_EventHub>().FromInstance(skillEventHub).AsSingle();
-            
-            // Install Installer
-            SignalBusInstaller.Install(Container);
 
             // Bind Managers
             Container.Bind().FromInstance(_gameManager).AsSingle();

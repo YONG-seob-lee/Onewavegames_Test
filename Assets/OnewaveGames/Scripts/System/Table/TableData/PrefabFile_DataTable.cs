@@ -12,7 +12,7 @@ namespace OnewaveGames.Scripts.System.Table.TableData
 
         public void RegisterData()
         {
-            TextAsset textAsset = SystemLibrary.CreateTextAsset("Tables/PrefabFile");
+            TextAsset textAsset = SystemLibrary.CreateTextAsset("Table/PrefabFile");
             if (textAsset != null)
             {
                 SystemLibrary.CreateTableObject(textAsset, DataMap);

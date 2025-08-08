@@ -10,7 +10,7 @@ namespace OnewaveGames.Scripts.System.Table.TableData
         public Dictionary<int, Directory_Entry> DataMap = new();
         public void RegisterData()
         {
-            TextAsset textAsset = SystemLibrary.CreateTextAsset("Tables/PathDirectory");
+            TextAsset textAsset = SystemLibrary.CreateTextAsset("Table/PathDirectory");
             if (textAsset != null)
             {
                 SystemLibrary.CreateTableObject(textAsset, DataMap);

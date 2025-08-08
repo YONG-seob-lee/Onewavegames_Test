@@ -6,7 +6,7 @@ namespace OnewaveGames.Scripts.System.Manager
 {
     public class Input_Manager : MonoBehaviour, IManager
     {
-        public void Construct(SignalBus signalBus)
+        [Inject] public void Construct(SignalBus signalBus)
         {
         }
 
