@@ -5,6 +5,7 @@ using OnewaveGames.Scripts.System.Spawn;
 using OnewaveGames.Scripts.System.Table.TableData;
 using UnityEngine;
 using Zenject;
+using Zenject.ReflectionBaking.Mono.Cecil;
 
 public enum EUnitType
 {
@@ -90,8 +91,14 @@ namespace OnewaveGames.Scripts.System.Manager
                 Debug.LogError($"해당 유닛에 대한 프리팹 경로가 없습니다.");
                 return null;
             }
-            
-            GameObject unitObject = Instantiate(Resources.Load<GameObject>(prefabPath));
+
+            GameObject prefab = Resources.Load<GameObject>(prefabPath);
+            if (!prefab)
+            {
+                Debug.LogError($"Resources.Load 실패 : {prefabPath}");
+                return null;
+            }
+            GameObject unitObject = Instantiate(prefab, spawnLocation, Quaternion.identity);
             if (!unitObject)
             {
                 Debug.LogError($"Resources.Load 실패: {prefabPath}");
