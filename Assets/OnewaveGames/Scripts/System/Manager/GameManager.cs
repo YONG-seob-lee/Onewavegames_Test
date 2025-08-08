@@ -22,7 +22,7 @@ namespace OnewaveGames.Scripts.System.Manager
         {
             if (Instance != null && Instance != this)
             {
-                Destroy(Instance);
+                DestroyImmediate(Instance);
                 return;
             }
 
