@@ -1,4 +1,4 @@
-﻿using OnewaveGames.Scripts.Manager;
+﻿using OnewaveGames.Scripts.EventHub;
 using UnityEngine;
 
 namespace OnewaveGames.Scripts.Skill
@@ -8,15 +8,13 @@ namespace OnewaveGames.Scripts.Skill
         public override bool ApplySkill(Actor_Base source, Actor_Base target)
         {
             Debug.Log($"{source.name}이(가) 스킬 시전 이벤트를 보냅니다.");
-            
-            EventManager.Public(new SkillCastEvent() { source = source, skill = this});
 
             return true;
         }
 
         public void Execute(Actor_Base source, Actor_Base target)
         {
-            Debug.Log($"{source.name}의 {skillData.skillName}스킬이 발동됩니다.");
+            Debug.Log($"{source.name}의 {SkillDataTable.name}스킬이 발동됩니다.");
             ApplySkill(source, target);
         }
     }

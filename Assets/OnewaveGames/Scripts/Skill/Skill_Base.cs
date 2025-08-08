@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using OnewaveGames.Scripts.TableData;
+using OnewaveGames.Scripts.System.Table.TableData;
 
 public struct SkillCastEvent
 {
@@ -8,7 +8,7 @@ public struct SkillCastEvent
 }
 public abstract class Skill_Base
 {
-    public SkillData skillData;
+    public Skill_DataTable SkillDataTable;
     
     private List<Effect> EffectList {get;} = new();
 

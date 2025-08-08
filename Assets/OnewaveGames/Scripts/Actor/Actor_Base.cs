@@ -1,19 +1,27 @@
 using System.Collections.Generic;
-using OnewaveGames.Scripts.Manager;
+using OnewaveGames.Scripts.EventHub;
 using UnityEngine;
 
 public class Actor_Base : MonoBehaviour
 {
+    private EUnitType _unitType;
     public List<Skill_Base> skills = new List<Skill_Base>();
 
+    public virtual void Initialize(EUnitType unitType)
+    {
+        _unitType = unitType;
+            
+        GlobalEventHub.SkillHub.Subscribe<HitEvent>(OnHit);
+    }
+    
     private void OnEnable()
     {
-        EventManager.Subscribe<SkillCastEvent>(HandleSkillCast);
+        GlobalEventHub.SkillHub.Subscribe<SkillCastEvent>(HandleSkillCast);
     }
 
     private void OnDisable()
     {
-        EventManager.Unsubcribe<SkillCastEvent>(HandleSkillCast);
+        GlobalEventHub.SkillHub.Unsubscribe<SkillCastEvent>(HandleSkillCast);
     }
 
     public void ApplySkill(Actor_Base target)
@@ -27,5 +35,18 @@ public class Actor_Base : MonoBehaviour
         {
             
         }
+    }
+    
+    protected virtual void OnHit(HitEvent evt)
+    {
+        if (evt.Target == gameObject)
+        {
+            TakeDamage(0);
+        }
+    }
+
+    protected virtual void TakeDamage(int damage)
+    {
+        
     }
 }
