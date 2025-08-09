@@ -41,10 +41,10 @@ namespace OnewaveGames.Scripts.Effect
 
             Vector2 mousePosition = Mouse.current.position.ReadValue();
             Ray ray = mainCamera.ScreenPointToRay(mousePosition);
+                    
             RaycastHit hit;
-
             Vector3 targetDirection;
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.NameToLayer("Floor")))
             {
                 targetDirection = (hit.point - caster.transform.position).normalized;
             }
@@ -52,6 +52,8 @@ namespace OnewaveGames.Scripts.Effect
             {
                 targetDirection = (ray.origin + ray.direction * indicatorRange - caster.transform.position).normalized;
             }
+
+            targetDirection.y = 0f;
             
             // 마우스 방향으로 회전하면서 생성
             GameObject projectileObject = Instantiate(projectilePrefab, caster.transform.position, Quaternion.LookRotation(targetDirection));
@@ -97,7 +99,7 @@ namespace OnewaveGames.Scripts.Effect
                     RaycastHit hit;
                     
                     Vector3 mouseHitPosition;
-                    if (Physics.Raycast(ray, out hit))
+                    if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.NameToLayer("Floor")))
                     {
                         mouseHitPosition = hit.point;
                     }
@@ -105,6 +107,8 @@ namespace OnewaveGames.Scripts.Effect
                     {
                         mouseHitPosition = ray.GetPoint(indicatorRange);
                     }
+
+                    mouseHitPosition.y = 0f;
             
                     Vector3 casterPosition = casterTransform.position;
                     Vector3 direction = (mouseHitPosition - casterPosition).normalized;
