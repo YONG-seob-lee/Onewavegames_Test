@@ -56,7 +56,7 @@ namespace OnewaveGames.Scripts.Effect
             targetDirection.y = 0f;
             
             // 마우스 방향으로 회전하면서 생성, 바닥에서 살짝 위쪽으로 떼서 발사.
-            GameObject projectileObject = Instantiate(projectilePrefab, caster.transform.position + new Vector3(0, 1f, -2f), Quaternion.LookRotation(targetDirection));
+            GameObject projectileObject = Instantiate(projectilePrefab, caster.transform.position + targetDirection, Quaternion.LookRotation(targetDirection));
 
             GrabProjectile projectileScript = projectileObject.GetComponent<GrabProjectile>();
             projectileScript.Initialize(caster, this);
