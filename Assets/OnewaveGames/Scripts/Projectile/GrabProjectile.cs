@@ -1,4 +1,6 @@
 ﻿using OnewaveGames.Scripts.Effect;
+using OnewaveGames.Scripts.EventHub;
+using OnewaveGames.Scripts.Skill;
 using UnityEngine;
 
 namespace OnewaveGames.Scripts.Projectile
@@ -8,22 +10,21 @@ namespace OnewaveGames.Scripts.Projectile
         private GameObject _caster;
         private bool _hasHitTarget = false;
         private ProjectileEffect _projectileEffect;
+        private PullEffect _pullEffect;
         private Vector3 _initialPosition;
         
-        // 초기화 함수: SkillData를 받아 투사체에 필요한 정보를 설정합니다.
         public void Initialize(GameObject caster, ProjectileEffect projectileEffect)
         {
             _caster = caster;
             _initialPosition = transform.position;
             _projectileEffect = projectileEffect;
         
-            // 투사체 발사 속도를 SkillData에서 가져와 적용합니다.
             if (projectileEffect != null)
             {
                 GetComponent<Rigidbody>().velocity = _caster.transform.forward * projectileEffect.projectileSpeed;
             }
 
-            // 5초 후 자동으로 투사체 파괴
+            // 버그 회피용 코드
             Destroy(gameObject, 5f);
         }
 
@@ -34,8 +35,7 @@ namespace OnewaveGames.Scripts.Projectile
                 Destroy(gameObject);
             }
         }
-    
-        // 충돌 감지
+        
         private void OnCollisionEnter(Collision collision)
         {
             if (_hasHitTarget) return;
@@ -43,12 +43,10 @@ namespace OnewaveGames.Scripts.Projectile
             if (collision.gameObject.CompareTag("Enemy") && collision.gameObject != _caster)
             {
                 _hasHitTarget = true;
-            
-                _projectileEffect.Apply(_caster, collision.gameObject);
+                GlobalEventHub.SkillHub.Publish(new HitEvent(_caster, collision.gameObject, ESkillType.Grab));
+                Destroy(gameObject);
             }
         
-            // 투사체 파괴
-            Destroy(gameObject);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using OnewaveGames.Scripts.Skill;
+using UnityEngine;
 
 namespace OnewaveGames.Scripts.EventHub
 {
@@ -32,22 +34,29 @@ namespace OnewaveGames.Scripts.EventHub
             Type eventType = typeof(T);
             if (_listeners.ContainsKey(eventType) && _listeners[eventType] != null)
             {
-                (_listeners[eventType] as Action<T>)?.Invoke(eventData);
+                var listenersToInvoke = new List<Delegate>(_listeners[eventType]);
+                foreach (var listener in listenersToInvoke)
+                {
+                    if (listener is Action<T> action)
+                    {
+                        action.Invoke(eventData);
+                    }
+                }
             }
         }
     }
 
     public class HitEvent
     {
-        public Actor_Base Attacker;
-        public Actor_Base Target;
-        public Skill_Base Skill;
+        public GameObject Attacker;
+        public GameObject Target;
+        public ESkillType SkillType;
 
-        public HitEvent(Actor_Base attacker, Actor_Base target, Skill_Base skill)
+        public HitEvent(GameObject attacker, GameObject target, ESkillType skillType)
         {
             Attacker = attacker;
             Target = target;
-            Skill = skill;
+            SkillType = skillType;
         }
     }
 }

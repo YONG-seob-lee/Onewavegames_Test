@@ -1,6 +1,9 @@
-﻿using OnewaveGames.Scripts.Skill.Indiacator;
+﻿using OnewaveGames.Scripts.EventHub;
+using OnewaveGames.Scripts.Skill;
+using OnewaveGames.Scripts.Skill.Indiacator;
 using OnewaveGames.Scripts.System.Table.TableData;
 using UnityEngine;
+using NotImplementedException = System.NotImplementedException;
 
 namespace OnewaveGames.Scripts.Effect
 {
@@ -10,7 +13,22 @@ namespace OnewaveGames.Scripts.Effect
         public float pullSpeed = 5f;
         public override void Initialize(Skill_Entry skillEntry)
         {
+            GlobalEventHub.SkillHub.Subscribe<HitEvent>(OnHit);
             pullSpeed = skillEntry.ProjectileSpeed;
+        }
+
+        private void OnHit(HitEvent hitEvent)
+        {
+            switch (hitEvent.SkillType)
+            {
+                case ESkillType.Grab:
+                {
+                    Apply(hitEvent.Attacker, hitEvent.Target);
+                    break;
+                }
+                default:
+                    break;
+            }
         }
 
         public override void Apply(GameObject caster, GameObject target)
