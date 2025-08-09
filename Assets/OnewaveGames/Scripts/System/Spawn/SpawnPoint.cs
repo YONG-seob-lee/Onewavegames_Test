@@ -8,5 +8,14 @@ namespace OnewaveGames.Scripts.System.Spawn
         
         public EUnitType UnitType => _unitType;
         public Vector3 Position => transform.position;
+
+        public void Start()
+        {
+            SpriteRenderer spriteRenderer = GetComponent <SpriteRenderer>();
+            if (spriteRenderer)
+            {
+                spriteRenderer.enabled = false;
+            }
+        }
     }
 }
