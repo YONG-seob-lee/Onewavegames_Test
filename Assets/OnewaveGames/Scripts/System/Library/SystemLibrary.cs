@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using OnewaveGames.Scripts.System.Manager;
 using OnewaveGames.Scripts.System.Table;
 using UnityEngine;
 
@@ -105,6 +106,18 @@ namespace OnewaveGames.Scripts.System.Library
             }
             
             throw new Exception($"지원되지 않는 타입 : {type.Name}");
+        }
+
+        public static IDataTable GetTable(ETableType tableType)
+        {
+            Table_Manager tableManager = (Table_Manager)GameManager.Instance.GetManager(EManager.Table);
+            if (!tableManager)
+            {
+                Debug.LogError("[Table Manager] is not exist!!");
+                return null;
+            }
+
+            return tableManager.GetTable(tableType);
         }
     }
 }

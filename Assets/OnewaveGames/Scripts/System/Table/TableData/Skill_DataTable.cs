@@ -18,14 +18,20 @@ namespace OnewaveGames.Scripts.System.Table.TableData
         }
 
         public void Clear() => DataMap.Clear();
+
+        public Skill_Entry GetEntry(int skillKey)
+        {
+            return DataMap.GetValueOrDefault(skillKey);
+        }
     }
 
     public class Skill_Entry : Data
     {
-        public readonly string skillName;
-        public readonly float cooldown;
-        public readonly float manaCost;
-        public readonly float range;
-        public readonly float projectileSpeed;
+        public readonly int Key;
+        public readonly string SkillName;
+        public readonly float Cooldown;
+        public readonly float ManaCost;
+        public readonly float Range;
+        public readonly float ProjectileSpeed;
     }
 }

@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: GrabSkillData
   m_EditorClassIdentifier: 
   skillType: 1
-  Effects: []
-  references:
-    version: 2
-    RefIds: []
+  Effects:
+  - {fileID: 11400000, guid: 991e215926c3c7f449e99f7dfd496b7e, type: 2}
+  - {fileID: 11400000, guid: 683416cb90afe184ebd9fe1aa4d08d8f, type: 2}

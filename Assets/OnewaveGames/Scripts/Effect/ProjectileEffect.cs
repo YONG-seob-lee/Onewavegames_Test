@@ -1,6 +1,8 @@
-﻿using System;
-using OnewaveGames.Scripts.Skill;
+﻿using OnewaveGames.Scripts.Projectile;
+using OnewaveGames.Scripts.Skill.Indiacator;
+using OnewaveGames.Scripts.System.Table.TableData;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace OnewaveGames.Scripts.Effect
 {
@@ -8,7 +10,19 @@ namespace OnewaveGames.Scripts.Effect
     public class ProjectileEffect : SkillEffectSO
     {
         public GameObject projectilePrefab;
-        public float projectileSpeed = 10f;
+        public float projectileSpeed = 50f;
+        public float indicatorRange = 20f;
+        private float tableProjectileSpeed = 0f;
+        private SkillIndicator _skillIndicator;
+
+#if UNITY_EDITOR
+        public bool testEditor = false;
+#endif
+        public override void Initialize(Skill_Entry skillEntry)
+        {
+            tableProjectileSpeed = skillEntry.ProjectileSpeed;
+            indicatorRange = skillEntry.Range;
+        }
         
         public override void Apply(GameObject caster, GameObject target)
         {
@@ -18,8 +32,98 @@ namespace OnewaveGames.Scripts.Effect
                 return;
             }
 
-            GameObject projectileObject = GameObject.Instantiate(projectilePrefab, caster.transform.position, caster.transform.rotation);
-            projectileObject.GetComponent<Rigidbody>().velocity = caster.transform.forward * projectileSpeed;
+            Camera mainCamera = Camera.main;
+            if (mainCamera == null)
+            {
+                Debug.LogError("메인 카메라를 찾을 수 없습니다.");
+                return;
+            }
+
+            Vector2 mousePosition = Mouse.current.position.ReadValue();
+            Ray ray = mainCamera.ScreenPointToRay(mousePosition);
+            RaycastHit hit;
+
+            Vector3 targetDirection;
+            if (Physics.Raycast(ray, out hit))
+            {
+                targetDirection = (hit.point - caster.transform.position).normalized;
+            }
+            else
+            {
+                targetDirection = (ray.origin + ray.direction * indicatorRange - caster.transform.position).normalized;
+            }
+            
+            // 마우스 방향으로 회전하면서 생성
+            GameObject projectileObject = Instantiate(projectilePrefab, caster.transform.position, Quaternion.LookRotation(targetDirection));
+
+            GrabProjectile projectileScript = projectileObject.GetComponent<GrabProjectile>();
+            projectileScript.Initialize(caster, this);
+            if (projectileScript != null)
+            {
+#if UNITY_EDITOR
+                if (testEditor == true)
+                {
+                    projectileObject.GetComponent<Rigidbody>().velocity = targetDirection * projectileSpeed;
+                }
+                else
+                {
+                    projectileObject.GetComponent<Rigidbody>().velocity = targetDirection * tableProjectileSpeed;
+                }
+#else
+                projectileObject.GetComponent<Rigidbody>().velocity = targetDirection * tableProjectileSpeed;
+#endif
+            }
+        }
+
+        public override void OnStart(SkillIndicator skillIndicator, GameObject caster, GameObject target)
+        {
+            IsStart = true;
+        }
+
+        public override void OnUpdate(SkillIndicator skillIndicator, GameObject caster, GameObject target)
+        {
+            if (IsStart == false)
+            {
+                return;
+            }
+            
+            if (skillIndicator != null)
+            {
+                Transform casterTransform = caster.transform;
+                Vector2 mousePosition = Mouse.current.position.ReadValue();
+                if (Camera.main != null)
+                {
+                    Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+                    RaycastHit hit;
+                    
+                    Vector3 mouseHitPosition;
+                    if (Physics.Raycast(ray, out hit))
+                    {
+                        mouseHitPosition = hit.point;
+                    }
+                    else
+                    {
+                        mouseHitPosition = ray.GetPoint(indicatorRange);
+                    }
+            
+                    Vector3 casterPosition = casterTransform.position;
+                    Vector3 direction = (mouseHitPosition - casterPosition).normalized;
+                    Vector3 indicatorEndPosition = casterPosition + direction * indicatorRange;
+                    Debug.Log(Vector3.Distance(casterPosition, indicatorEndPosition));
+                    skillIndicator.Show(casterPosition, indicatorEndPosition);
+                }
+            }
+        }
+
+        public override void OnEnd(SkillIndicator skillIndicator, GameObject caster)
+        {
+            if (skillIndicator != null)
+            {
+                skillIndicator.Hide();
+            }
+            IsStart = false;
+            
+            Apply(caster, null);
         }
     }
 }

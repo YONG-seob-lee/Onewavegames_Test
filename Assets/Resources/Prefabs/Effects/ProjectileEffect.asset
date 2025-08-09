@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd1d6a7d3964d43ad1750be354f937d, type: 3}
   m_Name: ProjectileEffect
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 0}
-  projectileSpeed: 10
+  key: 31
+  projectilePrefab: {fileID: 6476419490666731539, guid: bdfcb4246d78dbd45908b6324a8ce99a, type: 3}
+  projectileSpeed: 50
+  indicatorRange: 10
+  testEditor: 0

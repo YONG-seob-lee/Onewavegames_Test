@@ -16,12 +16,18 @@ public class Actor_Base : MonoBehaviour
     
     private void OnEnable()
     {
-        GlobalEventHub.SkillHub.Subscribe<SkillCastEvent>(HandleSkillCast);
+        if (GlobalEventHub.SkillHub != null)
+        {
+            GlobalEventHub.SkillHub.Subscribe<SkillCastEvent>(HandleSkillCast);
+        }
     }
 
     private void OnDisable()
     {
-        GlobalEventHub.SkillHub.Unsubscribe<SkillCastEvent>(HandleSkillCast);
+        if (GlobalEventHub.SkillHub != null)
+        {
+            GlobalEventHub.SkillHub.Unsubscribe<SkillCastEvent>(HandleSkillCast);
+        }
     }
 
     public void ApplySkill(Actor_Base target)
