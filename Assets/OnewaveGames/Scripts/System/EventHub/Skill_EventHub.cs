@@ -8,7 +8,7 @@ namespace OnewaveGames.Scripts.EventHub
     public class Skill_EventHub
     {
         private static Dictionary<Type, List<Delegate>> _listeners = new();
-        
+        public event Action<ESkillType> OnSkillReleased;
         public void Subscribe<T>(Action<T> callback)
         {
             var type = typeof(T);
@@ -43,6 +43,11 @@ namespace OnewaveGames.Scripts.EventHub
                     }
                 }
             }
+        }
+
+        public void BroadcastSkillReleased(ESkillType skillType)
+        {
+            OnSkillReleased?.Invoke(skillType);
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using OnewaveGames.Scripts.EventHub;
+using OnewaveGames.Scripts.Skill;
 using UnityEngine;
 
 namespace OnewaveGames.Scripts.Actor
@@ -13,12 +14,22 @@ namespace OnewaveGames.Scripts.Actor
         {
             base.Initialize(unitType);
             GlobalEventHub.EventHub.OnInputReceived += OnMove;
+
+            GlobalEventHub.SkillHub.OnSkillReleased += StopMovement;
         }
 
         public void OnMove(Vector3 targetPosition)
         {
             _targetPosition = targetPosition;
             _isMoving = true;
+        }
+
+        public void StopMovement(ESkillType skillType)
+        {
+            if (skillType == ESkillType.Grab)
+            {
+               _isMoving = false;
+            }
         }
 
         private void Update()
