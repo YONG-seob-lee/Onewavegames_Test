@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using OnewaveGames.Scripts.Skill;
 using OnewaveGames.Scripts.System.Library;
 using UnityEngine;
+using NotImplementedException = System.NotImplementedException;
 
 namespace OnewaveGames.Scripts.System.Table.TableData
 {
@@ -23,12 +25,24 @@ namespace OnewaveGames.Scripts.System.Table.TableData
         {
             return DataMap.GetValueOrDefault(skillKey);
         }
+
+        public int GetDamage(ESkillType skillType)
+        {
+            Skill_Entry skillEntry = GetEntry((int)skillType);
+            if (skillEntry == null)
+            {
+                return -1;
+            }
+
+            return skillEntry.Damage;
+        }
     }
 
     public class Skill_Entry : Data
     {
         public readonly int Key;
         public readonly string SkillName;
+        public readonly int Damage;
         public readonly float Cooldown;
         public readonly float ManaCost;
         public readonly float Range;
