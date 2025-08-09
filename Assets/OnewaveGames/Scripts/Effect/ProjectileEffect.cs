@@ -26,7 +26,6 @@ namespace OnewaveGames.Scripts.Effect
         
         public override void Apply(GameObject caster, GameObject target)
         {
-            Debug.Log("===============================");
             if (caster == null || projectilePrefab == null)
             {
                 Debug.LogError("Caster or Projectile Prefab is missing!");
