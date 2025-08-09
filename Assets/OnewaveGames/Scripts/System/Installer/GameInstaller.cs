@@ -9,7 +9,6 @@ namespace OnewaveGames.Scripts.System.Installer
     {
         [SerializeField] private GameManager _gameManager;
         [SerializeField] private Scene_Manager _sceneManager;
-        [SerializeField] private Input_Manager _inputManager;
         [SerializeField] private Table_Manager _tableManager;
         [SerializeField] private Unit_Manager _unitManager;
         
@@ -33,7 +32,6 @@ namespace OnewaveGames.Scripts.System.Installer
             // Bind Managers
             Container.Bind().FromInstance(_gameManager).AsSingle();
             Container.Bind().FromInstance(_sceneManager).AsSingle();
-            Container.Bind().FromInstance(_inputManager).AsSingle();
             Container.Bind().FromInstance(_tableManager).AsSingle();
             Container.Bind().FromInstance(_unitManager).AsSingle();
         }

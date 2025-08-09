@@ -2,7 +2,6 @@
 using OnewaveGames.Scripts.Skill;
 using OnewaveGames.Scripts.System.Library;
 using UnityEngine;
-using NotImplementedException = System.NotImplementedException;
 
 namespace OnewaveGames.Scripts.System.Table.TableData
 {
