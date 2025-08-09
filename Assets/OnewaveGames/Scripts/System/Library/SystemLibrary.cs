@@ -8,6 +8,10 @@ using UnityEngine;
 
 namespace OnewaveGames.Scripts.System.Library
 {
+    public enum EEffectSoundType
+    {
+        Grab = 3,
+    }
     public class SystemLibrary
     {
         public static TextAsset CreateTextAsset(string assetPath)

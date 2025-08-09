@@ -2,6 +2,7 @@
 using OnewaveGames.Scripts.System.Library;
 using OnewaveGames.Scripts.System.Manager;
 using UnityEngine;
+using NotImplementedException = System.NotImplementedException;
 
 namespace OnewaveGames.Scripts.System.Table.TableData
 {
@@ -47,6 +48,7 @@ namespace OnewaveGames.Scripts.System.Table.TableData
     public class PrefabFile_Entry : Data
     {
         public readonly int Key;
+        public readonly int Type;
         public readonly int Directory_Key;
         public readonly string Prefab_FileName;
     }

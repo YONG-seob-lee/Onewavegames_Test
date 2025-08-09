@@ -35,7 +35,7 @@ namespace OnewaveGames.Scripts.Ability
             }
         }
 
-        public void StartActiveSkill(string skillKey, Vector2 mousePosition)
+        public void StartActiveSkill(string skillKey)
         {
             SkillEffectSO skillEffect = GetSkillEffect(skillKey);
             if (skillEffect != null)
@@ -54,7 +54,7 @@ namespace OnewaveGames.Scripts.Ability
             return null;
         }
 
-        public void EndActiveSkill(string skillKey, Vector2 mousePosition)
+        public void EndActiveSkill(string skillKey)
         {
             SkillEffectSO skillEffect = GetSkillEffect(skillKey);
             if (skillEffect != null)
